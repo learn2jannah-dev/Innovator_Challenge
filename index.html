@@ -1,12 +1,4 @@
-<!doctype html>
-<html lang="ms">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Modul kendiri Design Thinking + AI untuk pelajar sekolah menengah: tema Kelas Selesa.">
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
-</head>
-<body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Jejak Inovator</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -79,9 +71,9 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .hero-txt{display:grid;gap:12px;min-width:0}
 .hero .btn.accent{justify-self:start}
 .hero-art{display:grid;place-items:center}
-.hero-art svg{width:min(220px,100%);height:auto}
-.wave{position:absolute;inset:auto 0 0 0;height:36px;opacity:.25}
-@media (max-width:640px){.hero{grid-template-columns:1fr}.hero-art{order:-1}.hero-art svg{width:140px}}
+.hero-art svg{width:min(270px,100%);height:auto}
+.wave{position:absolute;left:0;bottom:0;width:100%;height:36px;opacity:.25;pointer-events:none}
+@media (max-width:640px){.hero{grid-template-columns:1fr}.hero-art{order:-1}.hero-art svg{width:210px}}
 .bob{animation:bob 3.2s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(-8px)}}
 
@@ -138,7 +130,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 /* games */
 .q{display:grid;gap:10px;padding:14px;border-radius:var(--r-sm);background:var(--bg);border:2px solid transparent;transition:border-color .2s}
 .q.right{border-color:var(--good);background:var(--good-soft)}
-.q.wrong{border-color:var(--bad);background:var(--bad-soft);animation:shake .35s}
+.q.wrong{border-color:var(--bad);background:var(--bad-soft)}
 @keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .q-t{font-weight:500}
 .qs{display:grid;gap:10px}
@@ -336,7 +328,47 @@ h1,h2,h3{letter-spacing:-.01em}
 .chk-go svg{width:16px;height:16px}
 .unav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .foot{margin-top:8px}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+/* ---- games v5: animasi (GSAP) & maklum balas ---- */
+.q{position:relative}
+.q .mk{position:absolute;top:12px;right:12px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:#fff}
+.q .mk svg{width:16px;height:16px;stroke-width:3}
+.q.right .mk{background:var(--good)}.q.wrong .mk{background:var(--bad)}
+.q.right .q-t,.q.wrong .q-t{padding-right:38px}
+.gprog{display:grid;gap:6px}
+.gprog-h{display:flex;justify-content:space-between;gap:10px;font-size:.85rem;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+.gprog .meter i{transition:width .3s ease-out}
+.scorecard{display:flex;align-items:center;gap:18px;padding:16px 18px;border-radius:16px;background:#F5FAFC;border:1px solid var(--line);flex-wrap:wrap}
+.scorecard.pass{background:var(--good-soft);border-color:#BCE5CF}
+.ring{--p:0;width:92px;height:92px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;background:conic-gradient(var(--good) calc(var(--p)*1%),#E3EEF3 0);position:relative}
+.ring::after{content:"";position:absolute;inset:9px;border-radius:50%;background:var(--card)}
+.ring span{position:relative;z-index:1;display:grid;justify-items:center;line-height:1}
+.ring b{font-family:var(--f-display);font-size:1.7rem;font-weight:800;color:var(--primary-d);font-variant-numeric:tabular-nums}
+.ring small{font-size:.72rem;font-weight:600;color:var(--muted)}
+.sc-t{display:grid;gap:4px;min-width:0;flex:1 1 200px}
+.sc-t b{font-family:var(--f-display);font-size:1.2rem;font-weight:800}
+.timer.low{background:conic-gradient(var(--bad) var(--pct,100%),var(--bg2) 0)}
+.timer.low span{color:var(--bad)}
+.idea{animation:none}.idea.new{animation:pop .3s ease-out}
+.plus{position:fixed;z-index:22;pointer-events:none;font-family:var(--f-display);font-weight:800;font-size:1.25rem;color:var(--good);transform:translate(-50%,-50%)}
+.opt:disabled{cursor:default}
+.opt.good{background:var(--good-soft);border-color:var(--good);color:var(--good);box-shadow:0 3px 0 var(--good)}
+.opt.bad{background:var(--bad-soft);border-color:var(--bad);color:var(--bad);box-shadow:0 3px 0 var(--bad)}
+.opt.miss{background:var(--sun-soft);border-color:#E0B43A;border-style:dashed;color:#6E4A00;box-shadow:none}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.82rem;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:6px;vertical-align:-1px;border:2px solid}
+.sample span[data-k]{border-radius:5px}
+.warn{display:flex;gap:8px;align-items:center;font-size:.88rem;font-weight:600;color:var(--bad);background:var(--bad-soft);padding:8px 12px;border-radius:var(--r-sm)}
+.q.answered{border-color:#B9D9E8;background:#F2F9FC}
+.prefs{display:flex;gap:6px}
+.pbtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;color:var(--navy);flex:0 0 auto}
+.pbtn[aria-pressed="false"]{color:#8AA3B2;background:#EEF4F7}
+.pbtn svg{width:18px;height:18px}
+.motion-hint{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r-sm);background:var(--sun-soft);color:#6E4A00;font-size:.88rem;font-weight:600}
+.motion-hint svg{width:18px;height:18px}
+.motion-hint span{flex:1 1 200px;min-width:0}
+@media (max-width:420px){.bar-in{gap:6px}.topnav{gap:0}.navbtn{padding:0 8px}.hpills .hpill.sc{padding:0 8px}.hpill .m{display:none}.prefs{gap:4px}.pbtn{width:36px;height:36px}}
+:root.motion-off *,:root.motion-off *::before,:root.motion-off *::after{animation:none!important;transition:none!important}
+@media (prefers-reduced-motion:reduce){:root:not(.motion-on) *,:root:not(.motion-on) *::before,:root:not(.motion-on) *::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 
 <header class="bar"><div class="bar-in">
@@ -350,6 +382,7 @@ h1,h2,h3{letter-spacing:-.01em}
   </nav>
   <span class="spacer"></span>
   <div class="hpills" id="hpills"></div>
+  <div class="prefs" id="prefs"></div>
 </div></header>
 
 <div class="shell"><aside class="side" id="side" aria-label="Perjalanan"></aside>
@@ -363,9 +396,59 @@ h1,h2,h3{letter-spacing:-.01em}
 (function(){
 const KEY='jejakInovator.v1';
 const RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+const SPRINT_SEC=60;
+/* ---------- animasi & bunyi ----------
+   Enjin terbina dalam browser (Web Animations + Web Audio): tiada fail luar, jadi tetap jalan walaupun CDN disekat.
+   Masa & easing ikut pratetap GSAP (back.out untuk lantunan, power2.out untuk masuk). Pelajar boleh hidup/matikan di bar atas. */
+const PKEY='jejakInovator.prefs';
+let PREF={sound:true,motion:!RM};
+try{Object.assign(PREF,JSON.parse(localStorage.getItem(PKEY))||{})}catch(e){}
+const savePref=()=>{try{localStorage.setItem(PKEY,JSON.stringify(PREF))}catch(e){}};
+const applyMotion=()=>{const r=document.documentElement;r.classList.toggle('motion-on',PREF.motion);r.classList.toggle('motion-off',!PREF.motion)};applyMotion();
+const EZ={out:'cubic-bezier(.22,.8,.36,1)',back:'cubic-bezier(.34,1.7,.5,1)'};
+const tf=o=>`translate(${o.x||0}px,${o.y||0}px) scale(${o.scale??1}) rotate(${o.rotate||0}deg)`;
+const kf=o=>{const k={transform:tf(o)};if(o.opacity!=null)k.opacity=o.opacity;if(o.bg)k.backgroundColor=o.bg;return k};
+const asList=x=>!x?[]:(typeof x.length==='number'?[...x]:[x]);
+/* A(el, keadaan mula, {dur, delay, stagger, ease}): animasi dari keadaan mula ke keadaan biasa elemen */
+function A(els,from,o={}){if(!PREF.motion)return;asList(els).forEach((el,i)=>{if(!el||!el.animate)return;
+  const to={};if(from.opacity!=null)to.opacity=1;if(from.bg)to.bg='rgba(255,255,255,0)';
+  try{el.animate([kf(from),kf(to)],{duration:(o.dur||.3)*1000,delay:((o.delay||0)+(o.stagger||0)*i)*1000,easing:o.ease||EZ.out,fill:'backwards'})}catch(e){}})}
+const fx={
+ enter(root){if(root)A(root.querySelectorAll('.q,.opts>[data-chip],.sample,.gprog,.timer'),{y:18,opacity:0},{dur:.4,stagger:.05})},
+ tap(el){A(el,{scale:.8},{dur:.45,ease:EZ.back})},
+ pulse(el){A(el,{scale:1.15},{dur:.5,ease:EZ.back})},
+ shake(el,delay=0){if(!PREF.motion||!el||!el.animate)return;el.animate([0,-8,8,-6,6,-3,0].map(x=>({transform:`translateX(${x}px)`})),{duration:450,delay:delay*1000,easing:'ease-out'})},
+ plus(el,text){if(!PREF.motion||!el)return;const r=el.getBoundingClientRect(),d=document.createElement('div');d.className='plus';d.textContent=text;d.style.left=(r.left+r.width/2)+'px';d.style.top=r.top+'px';document.body.appendChild(d);
+   const a=d.animate([{transform:'translate(-50%,-50%) scale(.6)',opacity:0},{transform:'translate(-50%,-90%) scale(1.2)',opacity:1,offset:.25},{transform:'translate(-50%,-280%) scale(1)',opacity:0}],{duration:1000,easing:'ease-out'});a.onfinish=()=>d.remove()},
+ count(dur,cb,done){if(!PREF.motion){cb(1);if(done)done();return}const t0=performance.now();
+   const step=now=>{const p=Math.min(1,(now-t0)/(dur*1000));cb(1-(1-p)*(1-p));if(p<1)requestAnimationFrame(step);else if(done)done()};requestAnimationFrame(step)}
+};
+/* bunyi: dijana terus (tiada fail audio), hanya selepas pelajar klik */
+const SND=(()=>{let ctx=null;
+  const get=()=>{if(!ctx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;try{ctx=new AC()}catch(e){return null}}if(ctx.state==='suspended')ctx.resume().catch(()=>{});return ctx};
+  const tone=(f,at,dur,type,vol,f2)=>{const c=get();if(!c)return;const t=c.currentTime+at,o=c.createOscillator(),g=c.createGain();
+    o.type=type||'sine';o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+dur);
+    g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol||.15,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+    o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+dur+.03)};
+  const P={
+    tap:()=>tone(620,0,.09,'triangle',.16,900),
+    ready:()=>{tone(660,0,.1,'triangle',.14);tone(990,.08,.14,'triangle',.12)},
+    right:()=>{tone(784,0,.12,'sine',.2);tone(1175,.07,.2,'sine',.16)},
+    wrong:()=>tone(240,0,.26,'square',.07,140),
+    warn:()=>{tone(330,0,.12,'sawtooth',.06,280);tone(330,.15,.12,'sawtooth',.06,280)},
+    tick:()=>tone(1500,0,.04,'square',.04),
+    count:()=>tone(1250,0,.03,'sine',.05),
+    plus:()=>{tone(880,0,.08,'triangle',.16);tone(1320,.06,.14,'triangle',.14)},
+    start:()=>[523,784].forEach((f,i)=>tone(f,i*.09,.16,'triangle',.15)),
+    done:()=>{tone(523,0,.16,'sine',.16);tone(659,.12,.24,'sine',.14)},
+    win:()=>[523,659,784,1047].forEach((f,i)=>tone(f,i*.11,i===3?.4:.2,'triangle',.17))};
+  return {play(n){if(!PREF.sound||!P[n])return;try{P[n]()}catch(e){}}};
+})();
 
 /* ---------- icons (lucide-style) ---------- */
 const IC={
+ vol:'<path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>',
+ volx:'<path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="m22 9-6 6M16 9l6 6"/>',
  flag:'<path d="M4 22V4"/><path d="M4 4h12l-2 4 2 4H4"/>',
  heart:'<path d="M20.8 5.6a5 5 0 0 0-7.1 0L12 7.3l-1.7-1.7a5 5 0 1 0-7.1 7.1L12 21.5l8.8-8.8a5 5 0 0 0 0-7.1z"/>',
  target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
@@ -423,8 +506,8 @@ const levelOf=sc=>{const p=sc/MAXALL();return p>=.85?'Inovator Cemerlang':p>=.6?
 
 let S=load();
 if(S.persona&&!PERSONAS.find(p=>p.id===S.persona))S.persona='';
-function blank(){return {name:'',persona:'',f:{},games:{},done:[0,0,0,0,0,0,0],sprint:[],sketch:'',image:'',xp:0,bonus:{},cur:0,finishedAt:''}}
-function load(){try{const v=JSON.parse(localStorage.getItem(KEY));if(v&&v.done){const o=Object.assign(blank(),v);Object.keys(o.games).forEach(k=>{if(typeof o.games[k]!=='object')delete o.games[k]});return o}}catch(e){}return blank()}
+function blank(){return {name:'',persona:'',f:{},games:{},ans:{},done:[0,0,0,0,0,0,0],sprint:[],sprintStarted:0,sketch:'',image:'',finishedAt:''}}
+function load(){try{const v=JSON.parse(localStorage.getItem(KEY));if(v&&v.done){const o=Object.assign(blank(),v);if(!o.ans||typeof o.ans!=='object')o.ans={};Object.keys(o.games).forEach(k=>{if(typeof o.games[k]!=='object')delete o.games[k]});return o}}catch(e){}return blank()}
 let saveWarn=false;
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));saveWarn=false}catch(e){saveWarn=true}}
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -433,6 +516,9 @@ const ph=(k,label)=>v(k)?v(k):'⟦'+label+'⟧';
 const cap=s=>s?s.charAt(0).toUpperCase()+s.slice(1):'';
 function stmt(){return [v('pengguna')||'⟦pengguna⟧',' menghadapi masalah ',ph('d_apa','masalah'),' semasa ',ph('d_bila','bila'),' di ',ph('d_mana','di mana'),' kerana ',ph('d_kenapa','sebab'),'.'].join('')}
 function finalStmt(){return v('d_final')||stmt()}
+/* data peribadi: amalkan peraturan "jangan masukkan data peribadi" */
+const PII=[[/[\w.+-]+@[\w-]+\.[\w.]+/,'emel'],[/\b\d{6}-\d{2}-\d{4}\b|\b\d{12}\b/,'nombor IC'],[/(\+?6?0)1\d[\s-]?\d{3,4}[\s-]?\d{4}\b|\b0\d{8,10}\b/,'nombor telefon']];
+const piiIn=t=>PII.filter(([re])=>re.test(t)).map(x=>x[1]);
 
 const BS=['Betul','Salah'],EM=['Kata','Fikir','Rasa','Buat'],SC=['S','C','A','M','P','E','R'];
 const GAMES={
@@ -586,12 +672,20 @@ const doneCount=()=>S.done.filter(Boolean).length;
 function parseHash(){const h=(location.hash||'').slice(1);const m=h.match(/^unit-(\d)$/);
   if(m&&unlocked(+m[1]))return {name:'unit',i:+m[1]};if(h==='portfolio')return {name:'portfolio'};return {name:'peta'}}
 function nav(h){if(location.hash==='#'+h)render();else location.hash=h}
-window.addEventListener('hashchange',()=>{if(S.sprintStarted&&!attempted('g3a')){const ideas=S.sprint.slice();S.games.g3a={score:Math.min(ideas.length,SPRINT_MAX)*PTS,ideas,max:SPRINT_MAX*PTS,at:new Date().toISOString()};S.sprintStarted=0;save()}
-route=parseHash();render();window.scrollTo({top:0,behavior:RM?'auto':'smooth'})});
+window.addEventListener('hashchange',()=>{route=parseHash();render();window.scrollTo({top:0,behavior:RM?'auto':'smooth'})});
 document.querySelectorAll('[data-route]').forEach(b=>b.onclick=()=>nav(b.dataset.route));
 
+let lastTot=null;
+function renderPrefs(){const el=document.getElementById('prefs');if(!el)return;
+  el.innerHTML=`<button class="pbtn" id="sndBtn" aria-pressed="${PREF.sound}" aria-label="Bunyi" title="${PREF.sound?'Bunyi hidup (tekan untuk matikan)':'Bunyi mati (tekan untuk hidupkan)'}">${ic(PREF.sound?'vol':'volx')}</button><button class="pbtn" id="motBtn" aria-pressed="${PREF.motion}" aria-label="Animasi" title="${PREF.motion?'Animasi hidup (tekan untuk matikan)':'Animasi mati (tekan untuk hidupkan)'}">${ic('sparkle')}</button>`;
+  document.getElementById('sndBtn').onclick=()=>{PREF.sound=!PREF.sound;savePref();renderPrefs();SND.play('ready')};
+  document.getElementById('motBtn').onclick=()=>{PREF.motion=!PREF.motion;savePref();applyMotion();renderPrefs();fx.pulse(document.getElementById('motBtn'));SND.play('tap');if(route.name==='unit')renderUnit()};
+}
 function renderBar(){
-  document.getElementById('hpills').innerHTML=`<span class="hpill u" title="Unit lengkap">${ic('book')}${doneCount()}/7</span><span class="hpill sc" title="Jumlah markah">${ic('zap')}${total()} markah</span>`;
+  const tot=total();
+  document.getElementById('hpills').innerHTML=`<span class="hpill u" title="Unit lengkap">${ic('book')}${doneCount()}/7</span><span class="hpill sc" title="Jumlah markah">${ic('zap')}${tot}<span class="m"> markah</span></span>`;
+  if(lastTot!==null&&tot>lastTot){const el=document.querySelector('.hpill.sc');fx.pulse(el);fx.plus(el,'+'+(tot-lastTot))}
+  lastTot=tot;
   document.querySelectorAll('.navbtn').forEach(b=>b.setAttribute('aria-current',(b.dataset.route===route.name)?'page':'false'));
   renderSide();
 }
@@ -612,21 +706,43 @@ function renderSide(){
 function render(){renderBar();if(route.name==='unit')renderUnit();else if(route.name==='portfolio'){main.innerHTML=portfolioHTML();bindPortfolio()}else renderMap()}
 
 /* ---------- map ---------- */
+/* banner: bilik darjah yang makin sejuk & selesa bila lencana bertambah (34°C ke 24°C) */
+const TEMPS=[34,33,31,30,28,27,25,24];
+function heroArt(d){
+  const T=TEMPS[d],hot=T>=31,col=hot?'#FF6B3D':T>=27?'#FFC63A':'#5FE0C7',lvl=30+(34-T)*8;
+  const sky=hot?'#FFD9A8':T>=27?'#D6EEF6':'#BFEAF6',sunR=19-d*1.2;
+  const rays=d<4?Array.from({length:8},(_,k)=>{const a=k*Math.PI/4,r1=sunR+5,r2=sunR+12;return `<line x1="${(56+Math.cos(a)*r1).toFixed(1)}" y1="${(52+Math.sin(a)*r1).toFixed(1)}" x2="${(56+Math.cos(a)*r2).toFixed(1)}" y2="${(52+Math.sin(a)*r2).toFixed(1)}"/>`}).join(''):'';
+  const cloud=(x,y,k)=>`<g transform="translate(${x} ${y}) scale(${k})" fill="#fff"><ellipse cx="0" cy="0" rx="16" ry="9"/><ellipse cx="13" cy="-5" rx="11" ry="9"/><ellipse cx="24" cy="2" rx="12" ry="7"/></g>`;
+  const tk=[34,30,27,24],tickL=tk.map(t=>`<line x1="226" x2="234" y1="${30+(34-t)*8}" y2="${30+(34-t)*8}"/>`).join(''),tickT=tk.map(t=>`<text x="238" y="${34+(34-t)*8}">${t}°</text>`).join('');
+  return `<svg viewBox="0 0 260 212" role="img" aria-label="Suhu kelas ${T} darjah Celsius. ${d} daripada 7 lencana dikumpul.">
+   <defs><clipPath id="win"><rect x="14" y="14" width="150" height="112" rx="12"/></clipPath></defs>
+   <g clip-path="url(#win)"><rect x="14" y="14" width="150" height="112" fill="${sky}"/>
+    <g stroke="#FFC63A" stroke-width="3.5" stroke-linecap="round">${rays}</g><circle cx="56" cy="52" r="${sunR.toFixed(1)}" fill="#FFC63A"/>
+    ${d>=2?cloud(100,44,.9):''}${d>=4?cloud(30,96,.75):''}${d>=6?cloud(118,98,.8):''}
+    <path d="M14 112q40-12 75-2t75-4v20H14z" fill="#7CCB8E" opacity=".9"/></g>
+   <rect x="14" y="14" width="150" height="112" rx="12" fill="none" stroke="#fff" stroke-width="5"/>
+   <path d="M89 14v112M14 70h150" stroke="#fff" stroke-width="4"/>
+   <rect x="6" y="148" width="170" height="10" rx="5" fill="#fff"/>
+   <rect x="20" y="158" width="8" height="38" rx="3" fill="#fff" opacity=".75"/><rect x="154" y="158" width="8" height="38" rx="3" fill="#fff" opacity=".75"/>
+   <rect x="26" y="136" width="40" height="7" rx="2" fill="#5B6CD6"/><rect x="30" y="129" width="34" height="7" rx="2" fill="#DE4F78"/><rect x="34" y="141" width="36" height="7" rx="2" fill="#FFC63A"/>
+   <path d="M120 128h28l-4 20h-20z" fill="#F07B1D"/>
+   <g fill="${d>=3?'#2FBF7F':'#8FC79A'}"><ellipse cx="128" cy="116" rx="6" ry="13" transform="rotate(-25 128 116)"/><ellipse cx="141" cy="114" rx="6" ry="14" transform="rotate(22 141 114)"/><ellipse cx="134" cy="108" rx="5" ry="${10+d}"/></g>
+   <rect x="196" y="14" width="26" height="150" rx="13" fill="rgba(255,255,255,.22)" stroke="#fff" stroke-width="4"/>
+   <rect x="203" y="${lvl}" width="12" height="${176-lvl}" rx="6" fill="${col}"/>
+   <circle cx="209" cy="178" r="20" fill="${col}" stroke="#fff" stroke-width="4"/>
+   <g stroke="#fff" stroke-width="2.5" stroke-linecap="round">${tickL}</g><g font-family="var(--f-body),sans-serif" font-size="11" font-weight="700" fill="#fff">${tickT}</g>
+   <text x="91" y="204" text-anchor="middle" font-family="var(--f-display),sans-serif" font-weight="800" font-size="19" fill="#fff">Kelas ${T}°C</text>
+  </svg>`;
+}
 function renderMap(){
   const d=doneCount(),next=S.done.findIndex(x=>!x),nextI=next<0?6:next;
   main.innerHTML=`<div class="view">
    <section class="hero">
-    <div class="hero-txt"><span class="eyebrow">Modul kendiri · Design Thinking + AI</span>
+    <div class="hero-txt"><span class="eyebrow">Tema Kelas Selesa · Design Thinking + AI</span>
      <h1>${S.name?'Hai '+esc(S.name)+'!':'Jejak Inovator'}</h1>
      <p>${d===0?'Cipta inovasi Kelas Selesa untuk pengguna sebenar. Main game, guna AI sebagai rakan berfikir, dan kumpul 7 lencana.':d===7?'Tahniah! Semua lencana terkumpul. Lihat portfolio dan sijil kamu.':'Teruskan jejak kamu. '+(7-d)+' lencana lagi untuk dapat sijil.'}</p>
      <button class="btn accent" id="heroCta">${d===7?ic('trophy')+'Lihat sijil':ic('play')+(d===0?'Mula jejak':'Sambung: '+U[nextI].short)}</button></div>
-    <div class="hero-art"><svg class="bob" viewBox="0 0 120 200" aria-hidden="true">
-      <defs><clipPath id="bc"><path d="M44 8h32v22c0 8 22 14 22 36v112a14 14 0 0 1-14 14H36a14 14 0 0 1-14-14V66c0-22 22-28 22-36z"/></clipPath></defs>
-      <g clip-path="url(#bc)"><rect width="120" height="200" fill="rgba(255,255,255,.25)"/><rect x="0" y="${192-d/7*150}" width="120" height="200" fill="#fff" opacity=".9"/></g>
-      <path d="M44 8h32v22c0 8 22 14 22 36v112a14 14 0 0 1-14 14H36a14 14 0 0 1-14-14V66c0-22 22-28 22-36z" fill="none" stroke="#fff" stroke-width="5"/>
-      <rect x="40" y="0" width="40" height="12" rx="4" fill="#FFC63A"/>
-      <circle cx="50" cy="128" r="5" fill="#0F2F45"/><circle cx="70" cy="128" r="5" fill="#0F2F45"/><path d="M50 142q10 9 20 0" stroke="#0F2F45" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <text x="60" y="186" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="20" fill="#0F2F45">${d}/7</text></svg></div>
+    <div class="hero-art">${heroArt(d)}</div>
     <svg class="wave" viewBox="0 0 400 36" preserveAspectRatio="none" aria-hidden="true"><path d="M0 18q50-18 100 0t100 0 100 0 100 0v18H0z" fill="#fff"/></svg>
    </section>
    <section class="statrow"><div class="stat"><b>${d}/7</b><span>Unit lengkap</span></div><div class="stat"><b>${total()}</b><span>Markah / ${MAXALL()}</span></div><div class="stat"><b>${levelOf(total())}</b><span>Tahap</span></div></section>
@@ -694,19 +810,21 @@ function bindFields(){main.querySelectorAll('[data-f]').forEach(el=>el.addEventL
 function updateStepDots(){if(route.name!=='unit')return;renderSide();const i=route.i,steps=stepsOf(i);const k=steps.indexOf('misi');if(stepIdx[i]===k)return;const b=main.querySelector(`[data-step="${k}"]`);if(!b)return;const ok=missingFields(i).length===0;b.classList.toggle('ok',ok);b.querySelector('.dot').textContent=ok?'✓':k+1}
 function promptBox(id,label,note){
   return `<div class="prompt"><div class="prompt-h"><b>${ic('sparkle')}${label}</b><span class="row"><span class="copied" id="cp_${id}" hidden>Disalin</span><button class="btn accent sm" data-copy="${id}">${ic('copy')}Salin Prompt</button></span></div>
-   <p class="prompt-t" data-prompt="${id}"></p><textarea data-fallback="${id}" hidden readonly></textarea>
+   <p class="prompt-t" data-prompt="${id}"></p><p class="warn" data-pii="${id}" hidden></p><textarea data-fallback="${id}" hidden readonly></textarea>
    <p class="ai-links">${note?note+' ':''}Tampal di tool AI yang dibenarkan guru: <a href="https://gemini.google.com" target="_blank" rel="noopener">Gemini</a> · <a href="https://copilot.microsoft.com" target="_blank" rel="noopener">Copilot</a> · <a href="https://chatgpt.com" target="_blank" rel="noopener">ChatGPT</a></p></div>`;
 }
 const promptHTML=t=>esc(t).replace(/⟦([^⟧]*)⟧/g,'<mark>$1</mark>');
 function refreshLive(){
   main.querySelectorAll('[data-prompt]').forEach(el=>{el.innerHTML=promptHTML(P[el.dataset.prompt]())});
   main.querySelectorAll('[data-live="stmt"]').forEach(el=>{el.innerHTML=promptHTML(stmt())});
+  main.querySelectorAll('[data-pii]').forEach(el=>{const p=piiIn(P[el.dataset.pii]());el.hidden=!p.length;if(p.length)el.innerHTML=ic('alert')+'Prompt ini ada '+p.join(', ')+'. Buang data peribadi sebelum salin.'});
 }
 function bindPrompts(){
   refreshLive();
   main.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>{
     const id=b.dataset.copy,txt=P[id](),c=document.getElementById('cp_'+id);
     const say=(t,col)=>{c.textContent=t;c.style.color=col||'';c.hidden=false};
+    const pii=piiIn(txt);if(pii.length){say('Ada '+pii.join(', ')+' dalam prompt. Buang dahulu.','#FF9C8A');return}
     if(txt.includes('⟦')&&!b.dataset.warned){b.dataset.warned=1;say('Ada ruang kosong (kuning). Isi dahulu, atau tekan sekali lagi.','#FFD56B');return}
     const fb=()=>{const ta=main.querySelector(`[data-fallback="${id}"]`);ta.hidden=false;ta.value=txt;ta.focus();ta.select();say('Teks dipilih. Tekan Ctrl+C untuk salin.')};
     try{navigator.clipboard.writeText(txt).then(()=>{say('Disalin');setTimeout(()=>c.hidden=true,1800)}).catch(fb)}catch(e){fb()}
@@ -809,68 +927,136 @@ function missionPitch(){
 }
 
 /* ---------- games (sekali jawab, markah dikunci) ---------- */
-const ans={};
 const attempted=id=>!!(S.games[id]&&typeof S.games[id]==='object');
+let fresh=null; // game yang baru dihantar: animasi dedah markah dimainkan sekali sahaja
 function scoreTag(id){const r=S.games[id];return `<span class="st-state done">${r.score}/${r.max} markah</span>`}
+function unitWord(g){return g.type==='sprint'?'idea':g.type==='builder'?'elemen betul (bersih)':'jawapan betul'}
+function scoreCard(id){
+  const g=GAMES[id],r=S.games[id],passed=r.score/PTS>=g.pass;
+  const tip=passed?`Sasaran ${g.pass} ${unitWord(g)} dicapai. Jawapan dikunci, tekan Seterusnya untuk sambung.`
+    :`Sasaran ialah ${g.pass} ${unitWord(g)}. ${g.type==='classify'?'Lihat jawapan bertanda ✓ dan baca semula Teori':'Baca semula Teori'} supaya kamu faham untuk unit seterusnya.`;
+  return `<div class="scorecard ${passed?'pass':''}" data-score="${id}"><div class="ring" style="--p:${r.score/r.max*100}"><span><b data-count>${r.score}</b><small>/ ${r.max}</small></span></div>
+   <div class="sc-t"><b>${passed?'Hebat! Sasaran dicapai':'Jawapan dihantar'}</b><p class="note">${tip}</p></div></div>`;
+}
+function progHTML(id,n,len,label){return `<div class="gprog"><div class="gprog-h"><span>${label}</span><span id="gp_${id}">${n}/${len}</span></div><div class="meter"><i id="gpb_${id}" style="width:${len?n/len*100:0}%"></i></div></div>`}
 function gameHTML(id){
   const g=GAMES[id],done=attempted(id),r=S.games[id]||{};
-  const head=`<div class="row">${done?scoreTag(id):`<span class="st-state now">Maks ${gMax(id)} markah</span>`}</div>`;
-  const once=done?`<p class="result ok">${ic('lock')}Jawapan sudah dihantar. Markah kamu: ${r.score}/${r.max}. Tekan Seterusnya untuk sambung.</p>`
+  const head=`<div class="row">${done?scoreTag(id):`<span class="st-state now">Maks ${gMax(id)} markah</span>`}</div>`+
+    (PREF.motion?'':`<p class="motion-hint">${ic('sparkle')}<span>Animasi dimatikan (ikut tetapan peranti atau pilihan kamu).</span><button class="btn ghost sm" data-motion-on>Hidupkan animasi</button></p>`);
+  const once=done?scoreCard(id)
     :`<p class="bubble"><b>Perhatian:</b> game ini hanya boleh dijawab <b>sekali</b>. Markah terus dikira dan tidak boleh diubah.</p>`;
   if(g.type==='classify'){
-    const a=done?r.ans:(ans[id]||{});
+    const a=done?r.ans:(S.ans[id]||{}),n=Object.keys(a).length;
     return head+`<p>${g.intro}</p>${once}<div class="qs">`+g.items.map((it,qi)=>{
-      const cls=done?(a[qi]===it.a?'right':'wrong'):'';
-      return `<div class="q ${cls}" id="q_${id}_${qi}"><span class="q-t">${qi+1}. ${esc(it.t)}</span><div class="opts">${it.o.map((o,oi)=>`<button class="opt" data-g="${id}" data-q="${qi}" data-o="${oi}" aria-pressed="${a[qi]===oi}" ${done?'disabled':''}>${esc(o)}${done&&oi===it.a&&a[qi]!==it.a?' ✓':''}</button>`).join('')}</div></div>`}).join('')+
-     `</div>${done?'':`<div class="row"><button class="btn accent" data-check="${id}">${ic('check')}Hantar jawapan</button><span class="note">10 markah setiap jawapan betul</span></div>`}<div id="res_${id}" aria-live="polite"></div>`;
+      const ok=a[qi]===it.a,cls=done?(ok?'right':'wrong'):'';
+      return `<div class="q ${cls} ${!done&&a[qi]!==undefined?'answered':''}" id="q_${id}_${qi}">${done?`<span class="mk" role="img" aria-label="${ok?'Betul':'Salah'}">${ic(ok?'check':'x')}</span>`:''}<span class="q-t">${qi+1}. ${esc(it.t)}</span><div class="opts">${it.o.map((o,oi)=>`<button class="opt" data-g="${id}" data-q="${qi}" data-o="${oi}" aria-pressed="${a[qi]===oi}" ${done?'disabled':''}>${esc(o)}${done&&oi===it.a&&!ok?' ✓':''}</button>`).join('')}</div></div>`}).join('')+
+     `</div>${done?'':`${progHTML(id,n,g.items.length,'Soalan dijawab')}<div class="row"><button class="btn accent" data-check="${id}">${ic('check')}Hantar jawapan</button><span class="note">10 markah setiap jawapan betul</span></div>`}<div id="res_${id}" aria-live="polite"></div>`;
   }
   if(g.type==='sprint'){
     if(done)return head+once+`<div class="ideas">${(r.ideas||[]).map(i=>`<span class="idea">${esc(i)}</span>`).join('')}</div>`;
-    return head+`<p>Tulis seberapa banyak idea untuk masalah kamu dalam 60 saat. 10 markah setiap idea (maksimum ${SPRINT_MAX} idea). Masa hanya boleh dimulakan sekali.</p>${once}
-     <div class="row"><div class="timer" id="tm" style="--pct:100%"><span id="tmN">60</span></div><button class="btn accent" id="tmStart">${ic('play')}Mula</button></div>
+    const left=sprintLeft();
+    return head+`<p>Tulis seberapa banyak idea untuk masalah kamu dalam ${SPRINT_SEC} saat. 10 markah setiap idea berbeza (maksimum ${SPRINT_MAX} idea, sekurang-kurangnya 3 huruf). Masa hanya boleh dimulakan sekali dan terus berjalan walaupun kamu tukar halaman.</p>${once}
+     <div class="row"><div class="timer ${S.sprintStarted&&left<=10?'low':''}" id="tm" style="--pct:${left/SPRINT_SEC*100}%"><span id="tmN">${left}</span></div><button class="btn accent" id="tmStart">${ic('play')}Mula</button></div>
+     ${progHTML(id,Math.min(S.sprint.length,SPRINT_MAX),SPRINT_MAX,'Idea dikumpul')}
      <div class="row"><input type="text" id="ideaIn" aria-label="Idea baharu" placeholder="Taip idea, tekan Enter" style="flex:1;min-width:0" disabled><button class="btn sm" id="ideaAdd" disabled>Tambah</button></div>
+     <span class="note" id="ideaNote" aria-live="polite"></span>
      <div class="ideas" id="ideaList"></div><div id="res_${id}" aria-live="polite"></div>`;
   }
   const picked=done?new Set(r.chips):new Set();
+  const chipCls=k=>!done?'':k[0]==='g'?(picked.has(k)?'good':'miss'):(picked.has(k)?'bad':'');
+  const chipMark=k=>!done?'':k[0]==='g'?(picked.has(k)?' ✓':' (tertinggal)'):(picked.has(k)?' ✗':'');
   return head+`<p>Pilih elemen yang patut ada dalam prompt gambar, kemudian hantar. +10 markah setiap elemen betul, −10 setiap elemen yang tak perlu atau tak selamat.</p>${once}
-     <div class="opts">${[...BUILDER_GOOD.map((b,i)=>['g'+i,b[0]]),...BUILDER_BAD.map((b,i)=>['b'+i,b[0]])].sort((a,b)=>a[1].localeCompare(b[1])).map(([k,l])=>`<button class="opt" data-chip="${k}" aria-pressed="${picked.has(k)}" ${done?'disabled':''}>${esc(l)}${done&&k[0]==='b'&&picked.has(k)?' ✗':''}</button>`).join('')}</div>
+     <div class="opts">${[...BUILDER_GOOD.map((b,i)=>['g'+i,b[0]]),...BUILDER_BAD.map((b,i)=>['b'+i,b[0]])].sort((a,b)=>a[1].localeCompare(b[1])).map(([k,l])=>`<button class="opt ${chipCls(k)}" data-chip="${k}" aria-pressed="${picked.has(k)}" ${done?'disabled':''}>${esc(l)}${chipMark(k)}</button>`).join('')}</div>
+     ${done?`<div class="legend"><span><i style="background:var(--good-soft);border-color:var(--good)"></i>Betul dipilih</span><span><i style="background:var(--bad-soft);border-color:var(--bad)"></i>Tak perlu / tak selamat</span><span><i style="background:var(--sun-soft);border-color:#E0B43A;border-style:dashed"></i>Tertinggal</span></div>`:''}
      <p class="sample" id="builderSample">${done?esc(r.sample||''):'Prompt kamu akan muncul di sini.'}</p>
      ${done?'':`<div class="row"><button class="btn accent" id="builderSend">${ic('check')}Hantar prompt</button><span class="note" id="builderCount">0 elemen dipilih</span></div>`}<div id="res_${id}" aria-live="polite"></div>`;
 }
 function submit(id,data){
-  if(attempted(id))return;S.games[id]=Object.assign({max:gMax(id),at:new Date().toISOString()},data);save();renderBar();
-  burst(Math.round(20+120*data.score/gMax(id)));if(route.name==='unit')renderUnit();
+  if(attempted(id))return;S.games[id]=Object.assign({max:gMax(id),at:new Date().toISOString()},data);delete S.ans[id];save();
+  const showing=route.name==='unit'&&stepsOf(route.i)[stepIdx[route.i]]===id;
+  if(showing){fresh=id;renderUnit()}else{renderBar();SND.play('done')}
+}
+/* dedah markah: cincin terisi sambil markah dikira naik, setiap soalan ditanda satu demi satu dengan bunyi betul/salah */
+function reveal(id){
+  const box=document.getElementById('stepBody'),sc=box&&box.querySelector(`[data-score="${id}"]`);if(!sc)return;
+  const g=GAMES[id],r=S.games[id],num=sc.querySelector('[data-count]'),ring=sc.querySelector('.ring'),passed=r.score>0&&r.score/PTS>=g.pass;
+  const qs=[...box.querySelectorAll('.q')],items=qs.length?qs:[...box.querySelectorAll('.opt.good,.opt.bad,.opt.miss,.idea')];
+  const t0=.45,gap=Math.min(.18,1.8/Math.max(1,items.length));
+  A(sc,{y:20,opacity:0},{dur:.4});A(ring,{scale:.55,rotate:-40},{dur:.65,ease:EZ.back});
+  let lastTen=0;num.textContent='0';ring.style.setProperty('--p',0);
+  fx.count(Math.max(.9,t0+items.length*gap),p=>{const val=Math.round(r.score*p),ten=Math.floor(val/10);num.textContent=val;ring.style.setProperty('--p',val/r.max*100);if(ten>lastTen&&p<1){lastTen=ten;SND.play('count')}},
+    ()=>{num.textContent=r.score;ring.style.setProperty('--p',r.score/r.max*100);fx.pulse(ring)});
+  items.forEach((el,i)=>{const d=t0+i*gap,c=el.classList,bad=c.contains('wrong')||c.contains('bad'),good=c.contains('right')||c.contains('good')||c.contains('idea');
+    A(el,{x:-24,opacity:0},{dur:.32,delay:d});
+    const mk=el.querySelector('.mk');if(mk)A(mk,{scale:0,rotate:-140},{dur:.45,delay:d+.08,ease:EZ.back});
+    if(!qs.length)A(el,{scale:.5},{dur:.4,delay:d,ease:EZ.back});
+    if(bad)fx.shake(el,d+.25);
+    setTimeout(()=>SND.play(bad?'wrong':good?'right':'tick'),(d+.08)*1000)});
+  setTimeout(()=>{SND.play(passed?'win':'done');if(passed)burst(Math.round(50+100*r.score/r.max))},(t0+items.length*gap+.25)*1000);
 }
 function bindGames(){
-  main.querySelectorAll('.opt[data-g]:not([disabled])').forEach(b=>b.onclick=()=>{const {g,q,o}=b.dataset;ans[g]=ans[g]||{};ans[g][q]=+o;
-    main.querySelectorAll(`.opt[data-g="${g}"][data-q="${q}"]`).forEach(x=>x.setAttribute('aria-pressed',x===b))});
+  const box=document.getElementById('stepBody');
+  main.querySelectorAll('.opt[data-g]:not([disabled])').forEach(b=>b.onclick=()=>{const {g,q,o}=b.dataset;S.ans[g]=S.ans[g]||{};S.ans[g][q]=+o;save();
+    main.querySelectorAll(`.opt[data-g="${g}"][data-q="${q}"]`).forEach(x=>x.setAttribute('aria-pressed',x===b));fx.tap(b);
+    const card=document.getElementById(`q_${g}_${q}`);if(card)card.classList.add('answered');
+    const n=Object.keys(S.ans[g]).length,len=GAMES[g].items.length,t=document.getElementById('gp_'+g),bar=document.getElementById('gpb_'+g);
+    if(t)t.textContent=n+'/'+len;if(bar)bar.style.width=(n/len*100)+'%';
+    if(n===len){const btn=main.querySelector(`[data-check="${g}"]`);fx.pulse(btn);SND.play('ready')}else SND.play('tap');
+    const res=document.getElementById('res_'+g);if(res&&res.querySelector('.result.no'))res.innerHTML='';
+  });
   main.querySelectorAll('[data-check]').forEach(b=>{let armed=false;b.onclick=()=>{
-    const id=b.dataset.check,g=GAMES[id],a=ans[id]||{},res=document.getElementById('res_'+id),n=Object.keys(a).length;
-    if(n<g.items.length){res.innerHTML=`<p class="result no">${ic('alert')}Jawab semua ${g.items.length} soalan dahulu (${n} dijawab).</p>`;return}
-    if(!armed){armed=true;b.innerHTML=ic('check')+'Pasti? Tekan sekali lagi untuk hantar';res.innerHTML=`<p class="note">Selepas dihantar, jawapan tidak boleh diubah.</p>`;return}
+    const id=b.dataset.check,g=GAMES[id],a=S.ans[id]||{},res=document.getElementById('res_'+id),n=Object.keys(a).length;
+    if(n<g.items.length){res.innerHTML=`<p class="result no">${ic('alert')}Jawab semua ${g.items.length} soalan dahulu (${n} dijawab).</p>`;fx.shake(b);SND.play('warn');
+      const first=g.items.findIndex((_,qi)=>a[qi]===undefined),q=document.getElementById(`q_${id}_${first}`);
+      if(q){q.scrollIntoView({behavior:PREF.motion?'smooth':'auto',block:'center'});setTimeout(()=>fx.shake(q),PREF.motion?350:0)}return}
+    if(!armed){armed=true;b.innerHTML=ic('check')+'Pasti? Tekan sekali lagi untuk hantar';fx.tap(b);SND.play('tap');res.innerHTML=`<p class="note">Selepas dihantar, jawapan tidak boleh diubah.</p>`;return}
     let sc=0;g.items.forEach((it,qi)=>{if(a[qi]===it.a)sc++});
     submit(id,{score:sc*PTS,ans:Object.assign({},a)});
   }});
   if(document.getElementById('tm'))bindSprint();
   if(document.getElementById('builderSend'))bindBuilder();
+  main.querySelectorAll('[data-motion-on]').forEach(b=>b.onclick=()=>{PREF.motion=true;savePref();applyMotion();renderPrefs();renderUnit();SND.play('ready')});
+  if(fresh&&box&&box.querySelector(`[data-score="${fresh}"]`)){const id=fresh;fresh=null;reveal(id)}
+  else{fresh=null;fx.enter(box)}
 }
-function refreshUnitChrome(){}
-let tmr=null;
-function finishSprint(){clearInterval(tmr);tmr=null;const ideas=S.sprint.slice();S.sprintStarted=0;submit('g3a',{score:Math.min(ideas.length,SPRINT_MAX)*PTS,ideas})}
+/* Idea Sprint: masa dikira daripada S.sprintStarted, jadi selamat bila tukar langkah, halaman atau reload */
+let tmr=null,lastSec=null;
+function sprintLeft(){return S.sprintStarted?Math.max(0,SPRINT_SEC-Math.floor((Date.now()-S.sprintStarted)/1000)):SPRINT_SEC}
+function finishSprint(){clearInterval(tmr);tmr=null;S.sprintStarted=0;if(attempted('g3a')){save();return}const ideas=S.sprint.slice();submit('g3a',{score:Math.min(ideas.length,SPRINT_MAX)*PTS,ideas})}
+function runSprint(){if(tmr)return;tmr=setInterval(()=>{const t=sprintLeft(),tn=document.getElementById('tmN'),tm=document.getElementById('tm');
+  if(tn)tn.textContent=t;
+  if(tm){tm.style.setProperty('--pct',(t/SPRINT_SEC*100)+'%');tm.classList.toggle('low',t<=10);
+    if(t<=10&&t>0&&t!==lastSec&&lastSec!==null){fx.pulse(tm);SND.play('tick')}}
+  lastSec=t;if(t<=0)finishSprint()},250)}
 function bindSprint(){
-  const tm=document.getElementById('tm'),tn=document.getElementById('tmN'),inp=document.getElementById('ideaIn'),add=document.getElementById('ideaAdd'),list=document.getElementById('ideaList'),st=document.getElementById('tmStart');
-  const draw=()=>{list.innerHTML=S.sprint.map(i=>`<span class="idea">${esc(i)}</span>`).join('')};
-  const push=()=>{const t=inp.value.trim();if(!t||!tmr)return;S.sprint.push(t);inp.value='';save();draw();inp.focus()};
+  const inp=document.getElementById('ideaIn'),add=document.getElementById('ideaAdd'),list=document.getElementById('ideaList'),st=document.getElementById('tmStart'),note=document.getElementById('ideaNote'),tm=document.getElementById('tm');
+  const running=()=>!!S.sprintStarted&&sprintLeft()>0;
+  const chip=t=>{const s=document.createElement('span');s.className='idea';s.textContent=t;return s};
+  const draw=()=>list.replaceChildren(...S.sprint.map(chip));
+  const prog=()=>{const n=Math.min(S.sprint.length,SPRINT_MAX),t=document.getElementById('gp_g3a'),bar=document.getElementById('gpb_g3a');if(t)t.textContent=n+'/'+SPRINT_MAX;if(bar)bar.style.width=(n/SPRINT_MAX*100)+'%'};
+  const setUI=()=>{st.disabled=!!S.sprintStarted;inp.disabled=add.disabled=!running()};
+  const push=()=>{const t=inp.value.trim().replace(/\s+/g,' ');if(!t||!running())return;
+    if(t.length<3){note.textContent='Idea terlalu pendek. Tulis sekurang-kurangnya 3 huruf.';fx.shake(inp);SND.play('warn');return}
+    if(S.sprint.some(x=>x.toLowerCase()===t.toLowerCase())){note.textContent='Idea ini sudah ada. Cuba idea lain!';fx.shake(inp);SND.play('warn');return}
+    S.sprint.push(t);const n=S.sprint.length;note.textContent=n===SPRINT_MAX?'Markah maksimum dicapai! Teruskan kalau mahu.':'';
+    inp.value='';save();const c=chip(t);list.appendChild(c);prog();
+    A(c,{scale:.3,opacity:0,y:-22},{dur:.5,ease:EZ.back});
+    if(n<=SPRINT_MAX){fx.plus(c,'+10');SND.play('plus')}else SND.play('tap');
+    fx.pulse(document.getElementById('gp_g3a'));inp.focus()};
   add.onclick=push;inp.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();push()}};
-  st.onclick=()=>{if(tmr)return;S.sprint=[];S.sprintStarted=Date.now();save();draw();st.disabled=true;inp.disabled=add.disabled=false;inp.focus();
-    tmr=setInterval(()=>{const t=Math.max(0,60-Math.floor((Date.now()-S.sprintStarted)/1000));tn.textContent=t;tm.style.setProperty('--pct',(t/60*100)+'%');if(t<=0)finishSprint()},250)};
+  st.onclick=()=>{if(S.sprintStarted)return;S.sprint=[];S.sprintStarted=Date.now();lastSec=null;save();draw();prog();setUI();inp.focus();
+    A(tm,{scale:.6,rotate:-30},{dur:.6,ease:EZ.back});SND.play('start');runSprint()};
+  draw();setUI();if(running()){inp.focus();runSprint()}
 }
 function bindBuilder(){
   const sel=new Set(),sm=document.getElementById('builderSample'),cnt=document.getElementById('builderCount'),send=document.getElementById('builderSend'),res=document.getElementById('res_g4');let armed=false;
-  main.querySelectorAll('[data-chip]').forEach(b=>b.onclick=()=>{const k=b.dataset.chip;sel.has(k)?sel.delete(k):sel.add(k);b.setAttribute('aria-pressed',sel.has(k));armed=false;send.innerHTML=ic('check')+'Hantar prompt';
-    const parts=BUILDER_GOOD.filter((_,i)=>sel.has('g'+i)).map(x=>x[1]);sm.textContent=parts.length?'Hasilkan '+parts.join(', ')+'.':'Prompt kamu akan muncul di sini.';cnt.textContent=sel.size+' elemen dipilih'});
-  send.onclick=()=>{if(!sel.size){res.innerHTML=`<p class="result no">${ic('alert')}Pilih sekurang-kurangnya satu elemen.</p>`;return}
-    if(!armed){armed=true;send.innerHTML=ic('check')+'Pasti? Tekan sekali lagi untuk hantar';return}
+  const renderSample=added=>{const parts=BUILDER_GOOD.map((x,i)=>['g'+i,x[1]]).filter(([k])=>sel.has(k));
+    sm.innerHTML=parts.length?'Hasilkan '+parts.map(([k,t])=>`<span data-k="${k}">${esc(t)}</span>`).join(', ')+'.':'Prompt kamu akan muncul di sini.';
+    const sp=added&&sm.querySelector(`[data-k="${added}"]`);if(sp)A(sp,{bg:'rgba(255,198,58,.7)'},{dur:1.2})};
+  main.querySelectorAll('[data-chip]').forEach(b=>b.onclick=()=>{const k=b.dataset.chip,on=!sel.has(k);on?sel.add(k):sel.delete(k);b.setAttribute('aria-pressed',on);fx.tap(b);SND.play('tap');
+    armed=false;send.innerHTML=ic('check')+'Hantar prompt';renderSample(on?k:null);cnt.textContent=sel.size+' elemen dipilih'});
+  send.onclick=()=>{if(!sel.size){res.innerHTML=`<p class="result no">${ic('alert')}Pilih sekurang-kurangnya satu elemen.</p>`;fx.shake(send);SND.play('warn');return}
+    if(!armed){armed=true;send.innerHTML=ic('check')+'Pasti? Tekan sekali lagi untuk hantar';fx.tap(send);SND.play('tap');return}
     const good=[...sel].filter(k=>k[0]==='g').length,bad=sel.size-good;
     submit('g4',{score:Math.max(0,(good-bad)*PTS),chips:[...sel],sample:sm.textContent})};
 }
@@ -895,9 +1081,9 @@ function finishHTML(i){
    ${saveWarn?'<p class="miss-item">Storan browser penuh atau disekat. Kemajuan mungkin tidak disimpan.</p>':''}`;
 }
 function bindFinish(i){const b=document.getElementById('complete');if(!b)return;
-  b.onclick=()=>{S.done[i]=1;let bonus='';
-    if(i===6&&!S.finishedAt)S.finishedAt=new Date().toISOString();save();renderBar();renderUnit();showBadge(i,bonus)}}
-function showBadge(i,bonus){
+  b.onclick=()=>{S.done[i]=1;
+    if(i===6&&!S.finishedAt)S.finishedAt=new Date().toISOString();save();renderBar();renderUnit();showBadge(i)}}
+function showBadge(i){
   const u=U[i],root=document.getElementById('modalRoot');
   root.innerHTML=`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle"><div class="modal-c">
     <div class="medal" style="background:${u.color}">${ic(u.icon)}</div><span class="eyebrow">Lencana baharu</span>
@@ -905,17 +1091,21 @@ function showBadge(i,bonus){
     <button class="btn accent" id="mGo">${i<6?'Teruskan ke '+U[i+1].short:'Lihat sijil'}${ic('arrowR')}</button>
     <button class="btn ghost sm" id="mClose">Tutup</button></div></div>`;
   burst(140);
-  const close=()=>{root.innerHTML=''};
-  document.getElementById('mGo').onclick=()=>{close();nav(i<6?'unit-'+(i+1):'portfolio')};
-  document.getElementById('mClose').onclick=close;
+  const go=document.getElementById('mGo'),cl=document.getElementById('mClose');
+  const onKey=e=>{if(e.key==='Escape')close();else if(e.key==='Tab'){e.preventDefault();(document.activeElement===go?cl:go).focus()}};
+  const close=(refocus=true)=>{root.innerHTML='';document.removeEventListener('keydown',onKey);
+    if(refocus){const f=document.getElementById('nextUnit')||document.getElementById('toPf');if(f)f.focus()}};
+  go.onclick=()=>{close(false);nav(i<6?'unit-'+(i+1):'portfolio')};
+  cl.onclick=()=>close();
   root.querySelector('.modal').onclick=e=>{if(e.target.classList.contains('modal'))close()};
-  root.querySelector('.modal').onkeydown=e=>{if(e.key==='Escape')close()};
-  document.getElementById('mGo').focus();
+  document.addEventListener('keydown',onKey);
+  A(root.querySelector('.modal-c .medal'),{rotate:-35,scale:.3},{dur:.75,ease:EZ.back});SND.play('win');
+  go.focus();
 }
 
 /* confetti */
 function burst(n){
-  if(RM)return;const c=document.getElementById('confetti'),x=c.getContext('2d');c.hidden=false;
+  if(!PREF.motion)return;const c=document.getElementById('confetti'),x=c.getContext('2d');c.hidden=false;
   c.width=innerWidth;c.height=innerHeight;const cols=['#22A9B8','#1672C4','#FFC63A','#F07B1D','#DE4F78','#1B8E59'];
   const ps=Array.from({length:n},()=>({x:c.width/2+(Math.random()-.5)*120,y:c.height*.45,vx:(Math.random()-.5)*12,vy:-Math.random()*14-4,s:Math.random()*7+5,r:Math.random()*6,vr:(Math.random()-.5)*.3,c:cols[Math.random()*cols.length|0]}));
   let f=0;(function tick(){x.clearRect(0,0,c.width,c.height);ps.forEach(p=>{p.vy+=.45;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);x.restore()});
@@ -1054,13 +1244,12 @@ function bindPortfolio(){
   document.getElementById('copyPf').onclick=()=>{const t=portfolioText();const ok=()=>{document.getElementById('pfOk').hidden=false};
     const fb=()=>{const ta=document.getElementById('pfFallback');ta.hidden=false;ta.value=t;ta.style.minHeight='200px';ta.select()};
     try{navigator.clipboard.writeText(t).then(ok).catch(fb)}catch(e){fb()}};
-
 }
 
-if(S.sprintStarted&&!attempted('g3a')){const ideas=S.sprint.slice();S.games.g3a={score:Math.min(ideas.length,SPRINT_MAX)*PTS,ideas,max:SPRINT_MAX*PTS,at:new Date().toISOString()};S.sprintStarted=0;save()}
+if(S.sprintStarted&&!attempted('g3a')){if(sprintLeft()<=0)finishSprint();else runSprint()}
+renderPrefs();
 route=parseHash();render();
 })();
 </script>
 
-</body>
-</html>
+</body></html>
