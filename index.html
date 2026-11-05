@@ -366,6 +366,8 @@ h1,h2,h3{letter-spacing:-.01em}
 .legend i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:6px;vertical-align:-1px;border:2px solid}
 .sample span[data-k]{border-radius:5px}
 .warn{display:flex;gap:8px;align-items:center;font-size:.88rem;font-weight:600;color:var(--bad);background:var(--bad-soft);padding:8px 12px;border-radius:var(--r-sm)}
+.reset-btn.armed{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.side-reset{margin-top:6px;justify-self:start}
 .q.answered{border-color:#B9D9E8;background:#F2F9FC}
 .prefs{display:flex;gap:6px}
 .pbtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;color:var(--navy);flex:0 0 auto}
@@ -515,9 +517,18 @@ const levelOf=sc=>{const p=sc/MAXALL();return p>=.85?'Inovator Cemerlang':p>=.6?
 let S=load();
 if(S.persona&&!PERSONAS.find(p=>p.id===S.persona))S.persona='';
 function blank(){return {name:'',persona:'',f:{},games:{},ans:{},done:[0,0,0,0,0,0,0],sprint:[],sprintStarted:0,sketch:'',image:'',finishedAt:''}}
-function load(){try{const v=JSON.parse(localStorage.getItem(KEY));if(v&&v.done){const o=Object.assign(blank(),v);if(!o.ans||typeof o.ans!=='object')o.ans={};Object.keys(o.games).forEach(k=>{if(typeof o.games[k]!=='object')delete o.games[k]});return o}}catch(e){}return blank()}
+/* kemajuan disimpan untuk tab ini sahaja: tahan refresh, tapi app mula baharu setiap kali dibuka semula */
+try{localStorage.removeItem(KEY)}catch(e){}
+function load(){try{const v=JSON.parse(sessionStorage.getItem(KEY));if(v&&v.done){const o=Object.assign(blank(),v);if(!o.ans||typeof o.ans!=='object')o.ans={};Object.keys(o.games).forEach(k=>{if(typeof o.games[k]!=='object')delete o.games[k]});return o}}catch(e){}return blank()}
 let saveWarn=false;
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S));saveWarn=false}catch(e){saveWarn=true}}
+function save(){try{sessionStorage.setItem(KEY,JSON.stringify(S));saveWarn=false}catch(e){saveWarn=true}}
+/* butang Mula semula: tekan sekali untuk sedia, tekan lagi dalam 4 saat untuk padam */
+function resetBtnHTML(id){return `<button class="btn ghost sm reset-btn" id="${id}" data-reset>${ic('eraser')}Mula semula</button>`}
+function bindReset(root){(root||document).querySelectorAll('[data-reset]').forEach(b=>{let armed=0;b.onclick=()=>{
+  if(!armed){armed=setTimeout(()=>{armed=0;b.innerHTML=ic('eraser')+'Mula semula';b.classList.remove('armed')},4000);
+    b.innerHTML=ic('alert')+'Tekan lagi untuk padam semua';b.classList.add('armed');fx.shake(b);SND.play('warn');return}
+  clearTimeout(armed);clearInterval(tmr);tmr=null;try{sessionStorage.removeItem(KEY)}catch(e){}
+  S=blank();S.seenT={};stepIdx={};lastTot=null;fresh=null;SND.play('done');nav('peta')}})}
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const v=k=>(S.f[k]||'').trim();
 const ph=(k,label)=>v(k)?v(k):'⟦'+label+'⟧';
@@ -706,7 +717,9 @@ function renderSide(){
   const side=document.getElementById('side');
   side.innerHTML=`<p class="eyebrow side-h">Perjalanan</p><div class="side-list">${U.map((u,i)=>{const ul=unlocked(i),done=!!S.done[i],cur=route.name==='unit'&&route.i===i;
     return `<button class="side-item ${done?'done':''}" data-unit="${i}" ${ul?'':'disabled'} ${cur?'aria-current="page"':''}><span class="side-dot">${done?ic('check'):ul?i+1:ic('lock')}</span><span class="side-t"><small>${META[i].phase}</small><b>${u.short}</b></span></button>${cur?sideSteps(i):''}`}).join('')}</div>
-   <button class="side-pf" data-pf ${route.name==='portfolio'?'aria-current="page"':''}>${ic('medal')}Portfolio & Sijil</button>`;
+   <button class="side-pf" data-pf ${route.name==='portfolio'?'aria-current="page"':''}>${ic('medal')}Portfolio & Sijil</button>
+   <div class="side-reset">${resetBtnHTML('resetSide')}</div>`;
+  bindReset(side);
   side.querySelectorAll('[data-unit]').forEach(b=>b.onclick=()=>nav('unit-'+b.dataset.unit));
   side.querySelector('[data-pf]').onclick=()=>nav('portfolio');
   side.querySelectorAll('[data-sstep]').forEach(b=>b.onclick=()=>goStep(route.i,+b.dataset.sstep));
@@ -1235,6 +1248,9 @@ function portfolioHTML(){
     ${row('Refleksi',v('r_ai')?'AI bantu aku dalam '+v('r_ai')+', tetapi aku sendiri yang '+v('r_saya')+'.':'')}</dl>
     <div class="row"><button class="btn" id="copyPf">${ic('copy')}Salin portfolio (teks)</button><span class="miss-item" id="pfOk" hidden style="color:var(--good)">${ic('check')}Disalin</span></div>
     <textarea id="pfFallback" hidden readonly></textarea></section>
+   <section class="card"><div class="sub">${ic('eraser')}Mula semula</div>
+    <p class="note">App ini mula baharu setiap kali dibuka. Kemajuan kekal jika kamu refresh halaman, tetapi hilang bila tab ditutup. Simpan sijil dan portfolio sebelum tutup. Tekan butang di bawah untuk padam semua dan mula dari awal sekarang.</p>
+    <div>${resetBtnHTML('resetPf')}</div></section>
    </div>`;
 }
 function portfolioText(){
@@ -1246,6 +1262,7 @@ function portfolioText(){
    `Pitch: ${v('h_skrip')||v('h_cara')+' | '+v('h_unik')}`,`Slogan: ${v('h_slogan')}`,`Refleksi: AI bantu aku dalam ${v('r_ai')}, tetapi aku sendiri yang ${v('r_saya')}.`,`MARKAH: ${total()}/${MAXALL()} | `+Object.keys(GAMES).map(k=>GAMES[k].title+' '+(S.games[k]?S.games[k].score:0)+'/'+gMax(k)).join('; ')+` | Unit lengkap: ${doneCount()}/7`].join('\n');
 }
 function bindPortfolio(){
+  bindReset(main);
   const msg=document.getElementById('dlMsg');
   const dc=document.getElementById('dlCert');if(dc&&!dc.disabled)dc.onclick=()=>downloadCert(dc,msg);
   const dp=document.getElementById('dlPf');if(dp)dp.onclick=()=>downloadPortfolio(dp,msg);
